@@ -10,17 +10,48 @@ return [
         'highlight:' => ''
     ],
 
+    'autoload' => [
+        'Pagekit\\Highlight\\' => 'src'
+    ],
+
+    'routes' => [
+        '/highlight' => [
+            'name' => '@highlight',
+            'controller' => [
+                'Pagekit\\Highlight\\HighlightController'
+            ]
+        ],
+    ],
+
+    'config' => [
+        'style' => 'github',
+        'enable' => 'auto'
+    ],
+
+    'settings' => '@highlight/settings',
+
     'events' => [
 
         'site' => function ($event, $app) {
 
-            $app->on('view.content', function ($event) {
+            $config = Application::module('highlight')->config;
 
-                if(strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code')) {
-                    Application::scripts()->add('highlight', 'highlight:assets/highlight.pack.js');
-                    Application::scripts()->add('highlight-init', 'highlight:assets/highlight.js', 'highlight');
-                    Application::styles()->add('highlight', 'highlight:assets/styles/github.css');
-                    Application::styles()->add('highlight-override', 'highlight:assets/style-override.css', ['highlight-style']);
+            $load = function() use ($config) {
+                Application::scripts()->add('highlight', 'highlight:assets/highlight.pack.js');
+                Application::scripts()->add('highlight-init', 'highlight:assets/highlight.js', 'highlight');
+                Application::styles()->add('highlight', 'highlight:assets/styles/'.$config['style'].'.css');
+                Application::styles()->add('highlight-override', 'highlight:assets/style.css', 'highlight');
+            };
+
+            $app->on('view.content', function ($event) use ($config, $load) {
+                if($config['enable'] == "auto" && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))) {
+
+                    $load();
+
+                } else if($config['enable'] == "select") {
+
+                    // FIXME
+
                 }
             });
         }
