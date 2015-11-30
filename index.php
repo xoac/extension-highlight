@@ -59,7 +59,10 @@ return [
 
                 } else if($config['enable'] == "select") {
 
-                    // FIXME
+                    $current = Application::node()->id;
+                    if (in_array($current, $config['nodes'])) {
+                        $load();
+                    }
 
                 }
             });
