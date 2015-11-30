@@ -14,10 +14,7 @@ class HighlightController
         $module = App::module('highlight');
 
         // fetch available styles
-        $stylefolder = App::locator()->get('highlight:assets/styles');
-        $styles = array_map(function($fn){
-            return pathinfo($fn, PATHINFO_FILENAME);
-        }, glob($stylefolder.'/*.css'));
+        $styles = $this->getStyles();
 
         return [
             '$view' => [
@@ -31,15 +28,21 @@ class HighlightController
         ];
     }
 
-    /**
-     * @Request({"style": "string", "enable": "string"}, csrf=true)
-     */
-    public function saveAction($style, $enable)
+    public function stylesAction()
     {
-        App::config('highlight')
-            ->set('style', $style)
-            ->set('enable', $enable);
-
-        return ['success' => true];
+        return $this->getStyles();
     }
+
+    /**
+     * Return an array of all available styles.
+     */
+    protected function getStyles()
+    {
+        $stylefolder = App::locator()->get('highlight:assets/styles');
+
+        return array_map(function($fn){
+            return pathinfo($fn, PATHINFO_FILENAME);
+        }, glob($stylefolder.'/*.css'));
+    }
+
 }

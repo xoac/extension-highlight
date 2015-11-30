@@ -30,8 +30,6 @@ return [
 
     'settings' => 'highlight-settings',
 
-
-
     'events' => [
 		'view.scripts' => function ($event, $scripts) use ($app) {
 			$scripts->register('highlight-settings', 'highlight:app/bundle/highlight-settings.js', '~extensions');
