@@ -24,8 +24,14 @@ return [
     ],
 
     'config' => [
+        // default style. styles are located as css files in the styles folder
         'style' => 'github',
-        'enable' => 'auto'
+
+        // Should highlight script be loaded? 'auto' or 'select'
+        'enable' => 'auto',
+
+        // ids of selected pages. only used of enable is set to 'select'
+        'nodes' => []
     ],
 
     'settings' => 'highlight-settings',

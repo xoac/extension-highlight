@@ -3,6 +3,8 @@
 namespace Pagekit\Highlight;
 
 use Pagekit\Application as App;
+use Pagekit\Site\Model\Node;
+
 
 /**
  * @Access(admin=true)
@@ -13,7 +15,6 @@ class HighlightController
     {
         $module = App::module('highlight');
 
-        // fetch available styles
         $styles = $this->getStyles();
 
         return [
@@ -28,9 +29,15 @@ class HighlightController
         ];
     }
 
-    public function stylesAction()
+    public function configAction()
     {
-        return $this->getStyles();
+        $styles = $this->getStyles();
+        $config = [
+            'menus' => App::menu(),
+            'nodes' => array_values(Node::query()->get())
+        ];
+
+        return compact('styles', 'config');
     }
 
     /**
@@ -44,5 +51,6 @@ class HighlightController
             return pathinfo($fn, PATHINFO_FILENAME);
         }, glob($stylefolder.'/*.css'));
     }
+
 
 }

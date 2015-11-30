@@ -1,7 +1,7 @@
 <template>
 
 
-    <div class="uk-form uk-form-stacked">
+    <div class="uk-form uk-form-horizontal">
 
         <h1>Highlight Settings</h1>
 
@@ -25,13 +25,21 @@
             <div class="uk-form-controls uk-form-controls-text">
                 <input type="radio" id="input-enable-auto" name="input-enable" value="auto" v-model="package.config.enable">
                 <label for="input-enable-auto">
-                    Auto detect (every page with embedded code)
+                    Auto detect from page content
                 </label>
                 <br>
                 <input type="radio" id="input-enable-select" name="input-enable" value="select" v-model="package.config.enable">
                 <label for="input-enable-select">
                     Selected pages only
                 </label>
+            </div>
+        </div>
+
+        <div class="uk-form uk-margin-bottom" v-if="package.config.enable=='select' && status!='loading'">
+            <div class="uk-form-controls">
+                <input-tree
+                    :config="config"
+                    :nodes.sync="package.config.nodes"></input-tree>
             </div>
         </div>
 
@@ -54,7 +62,9 @@
         data: function() {
             return {
                 status: '',
-                styles: []
+                styles: [],
+                config: { nodes: [], menus: []},
+                treeVisible: false
             };
         },
 
@@ -69,13 +79,15 @@
             load: function () {
                 this.$set('status', 'loading');
 
-                this.$http.get('admin/highlight/styles', function (styles) {
-                    this.$set('styles', styles);
+                this.$http.get('admin/highlight/config', function (data) {
+                    this.$set('config', data.config);
+                    this.$set('styles', data.styles);
                     this.$set('status', '');
                 }).error(function () {
                     this.$set('status', 'error');
-                    this.$notify('Could not load available styles.');
-                })
+                    this.$notify('Could not load config.');
+                });
+
             },
 
             save: function () {
@@ -90,6 +102,12 @@
                    this.$parent.close();
                });
            }
+       },
+
+       components: {
+
+           inputTree: require('../../../../../app/system/modules/site/app/components/input-tree.vue')
+
        }
     };
 
