@@ -1,6 +1,5 @@
 <template>
 
-
     <div class="uk-form uk-form-horizontal">
 
         <h1>Highlight Settings</h1>
@@ -37,9 +36,7 @@
 
         <div class="uk-form uk-margin-bottom" v-if="package.config.enable=='select' && status!='loading'">
             <div class="uk-form-controls">
-                <input-tree
-                    :config="config"
-                    :nodes.sync="package.config.nodes"></input-tree>
+                <input-tree :nodes.sync="package.config.nodes"></input-tree>
             </div>
         </div>
 
@@ -102,12 +99,6 @@
                    this.$parent.close();
                });
            }
-       },
-
-       components: {
-
-           inputTree: require('../../../../../app/system/modules/site/app/components/input-tree.vue')
-
        }
     };
 

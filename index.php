@@ -38,7 +38,7 @@ return [
 
     'events' => [
 		'view.scripts' => function ($event, $scripts) use ($app) {
-			$scripts->register('highlight-settings', 'highlight:app/bundle/highlight-settings.js', '~extensions');
+			$scripts->register('highlight-settings', 'highlight:app/bundle/highlight-settings.js', ['~extensions', 'input-tree']);
 		},
 
         'site' => function ($event, $app) {
