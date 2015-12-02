@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="uk-form uk-margin-bottom" v-if="package.config.enable=='select' && status!='loading'">
+        <div class="uk-form uk-margin-bottom" v-if="package.config.enable=='select' && status=='loaded'">
             <div class="uk-form-controls">
                 <input-tree :nodes.sync="package.config.nodes"></input-tree>
             </div>
@@ -60,7 +60,6 @@
             return {
                 status: '',
                 styles: [],
-                config: { nodes: [], menus: []},
                 treeVisible: false
             };
         },
@@ -77,12 +76,11 @@
                 this.$set('status', 'loading');
 
                 this.$http.get('admin/highlight/config', function (data) {
-                    this.$set('config', data.config);
                     this.$set('styles', data.styles);
-                    this.$set('status', '');
+                    this.$set('status', 'loaded');
                 }).error(function () {
                     this.$set('status', 'error');
-                    this.$notify('Could not load config.');
+                    this.$notify('Could not load styles.');
                 });
 
             },
