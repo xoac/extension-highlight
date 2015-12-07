@@ -56,8 +56,7 @@
 
         data: function() {
             return {
-                styles: [],
-                treeVisible: false
+                styles: []
             };
         },
 
