@@ -27,10 +27,10 @@ return [
         // default style. styles are located as css files in the styles folder
         'style' => 'github',
 
-        // Should highlight script be loaded? 'auto' or 'select'
-        'enable' => 'auto',
+        // Only load if page contains pre or code
+        'autodetect' => true,
 
-        // ids of selected pages. only used of enable is set to 'select'
+        // ids of pages where highlighting should be enabled
         'nodes' => []
     ],
 
@@ -53,17 +53,21 @@ return [
             };
 
             $app->on('view.content', function ($event) use ($config, $load) {
-                if($config['enable'] == "auto" && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))) {
 
-                    $load();
+                $current = Application::node()->id;
 
-                } else if($config['enable'] == "select") {
+                // should be loaded on current page?
+                if (in_array($current, $config['nodes'])) {
 
-                    $current = Application::node()->id;
-                    if (in_array($current, $config['nodes'])) {
+                    if($config['autodetect'] && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))) {
+
                         $load();
-                    }
 
+                    } elseif (!$config['autodetect']) {
+
+                        $load();
+
+                    }
                 }
             });
         }
