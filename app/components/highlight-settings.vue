@@ -2,45 +2,42 @@
 
     <div class="uk-form uk-form-horizontal">
 
-        <h1>Highlight Settings</h1>
+        <h1>{{ 'Highlight Settings' | trans }}</h1>
 
         <div class="uk-form-row">
-            <label class="uk-form-label" for="input-style">Style</label>
+            <label class="uk-form-label" for="input-style">{{ 'Style' | trans }}</label>
             <div class="uk-form-controls">
-                <select id="input-style" v-model="package.config.style">
+                <select id="input-style" v-model="package.config.style" v-show="styles.length">
                     <option v-for="option in styles" :value="option">
                         {{ option }}
                     </option>
                 </select>
+                <div v-else>
+                    {{ 'Loading styles...' | trans }}
+                </div>
             </div>
         </div>
 
-        <hr>
-
-        <div class="uk-form" v-if="package.config.enable=='select'">
-            <label class="uk-form-label">Pages</label>
+        <div class="uk-form-row" v-if="package.config.enable=='select'">
+            <label class="uk-form-label">{{ 'Pages' | trans }}</label>
             <div class="uk-form-controls">
                 <input-tree :active.sync="package.config.nodes"></input-tree>
             </div>
         </div>
 
-        <hr>
-
         <div class="uk-form-row">
-            <label class="uk-form-label" for="input-enable-auto">Auto detect</label>
+            <label class="uk-form-label" for="input-enable-auto">{{ 'Auto detect' | trans }}</label>
             <div class="uk-form-controls uk-form-controls-text">
                 <input type="checkbox" id="input-enable-auto" name="input-enable-auto" value="auto" v-model="package.config.autodetect">
                 <label for="input-enable-auto">
-                    Only load when code found on page
+                    {{ 'Only load when code found on page' | trans }}
                 </label>
             </div>
         </div>
 
-        <hr>
-
         <div class="uk-form-row uk-margin-top">
             <div class="uk-form-controls">
-                <button class="uk-button uk-button-primary" @click.prevent="save">Save</button>
+                <button class="uk-button uk-button-primary" @click="save">{{ 'Save' | trans }}</button>
             </div>
         </div>
 
