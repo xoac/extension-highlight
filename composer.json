@@ -11,5 +11,9 @@
             "email": "info@pagekit.com",
             "homepage": "http://pagekit.com"
         }
-    ]
+    ],
+    "extra": {
+        "icon": "icon.svg",
+        "image": "image.jpg"
+    }
 }
