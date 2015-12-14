@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class="uk-form-row" v-if="package.config.enable=='select'">
+        <div class="uk-form-row">
             <label class="uk-form-label">{{ 'Pages' | trans }}</label>
             <div class="uk-form-controls">
                 <input-tree :active.sync="package.config.nodes"></input-tree>
