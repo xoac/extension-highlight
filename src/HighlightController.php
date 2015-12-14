@@ -11,33 +11,14 @@ use Pagekit\Site\Model\Node;
  */
 class HighlightController
 {
-    public function settingsAction()
-    {
-        $module = App::module('highlight');
-
-        $styles = $this->getStyles();
-
-        return [
-            '$view' => [
-                'name' => 'highlight:views/settings.php',
-                'title' => 'Highlight settings'
-            ],
-            '$data' => [
-                'config' => $module->config,
-                'styles' => $styles
-            ]
-        ];
-    }
-
+    /*
+     *  Returns several config settings needed for the settings view.
+     */
     public function configAction()
     {
         $styles = $this->getStyles();
-        $config = [
-            'menus' => App::menu(),
-            'nodes' => array_values(Node::query()->get())
-        ];
 
-        return compact('styles', 'config');
+        return compact('styles');
     }
 
     /**
