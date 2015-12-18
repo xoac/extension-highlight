@@ -20,13 +20,13 @@
 
         <div class="uk-form-row">
             <label class="uk-form-label">{{ 'Pages' | trans }}</label>
-            <div class="uk-form-controls">
+            <div class="uk-form-controls uk-form-controls-text">
                 <input-tree :active.sync="package.config.nodes"></input-tree>
             </div>
         </div>
 
         <div class="uk-form-row">
-            <label class="uk-form-label" for="input-enable-auto">{{ 'Auto detect' | trans }}</label>
+            <label class="uk-form-label" for="input-enable-auto">{{ 'Auto Detect' | trans }}</label>
             <div class="uk-form-controls uk-form-controls-text">
                 <input type="checkbox" id="input-enable-auto" name="input-enable-auto" value="auto" v-model="package.config.autodetect">
                 <label for="input-enable-auto">
