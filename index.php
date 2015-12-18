@@ -43,15 +43,9 @@ return [
 
         'site' => function ($event, $app) {
 
-            $app->on('view.content', function ($event) use ($app) {
-
-                $current = $app['node']->id;
-
-                // should be loaded on current page?
-                if (in_array($current, $this->config['nodes'])
-                    && ($this->config['autodetect']
-                        && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))
-                        || !$this->config['autodetect'])
+            $app->on('view.content', function ($event, $test) use ($app) {
+                if ((!$this->config['nodes'] || in_array($app['node']->id, $this->config['nodes']))
+                    && (!$this->config['autodetect'] || (strpos($event->getResult(), '<pre') !== false || strpos($event->getResult(), '<code') !== false))
                 ) {
                     $app['scripts']->add('highlight', 'highlight:assets/highlight.pack.js');
                     $app['scripts']->add('highlight-init', 'highlight:assets/highlight.js', 'highlight');
