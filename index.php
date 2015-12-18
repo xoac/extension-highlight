@@ -1,6 +1,6 @@
 <?php
 
-use Pagekit\Application;
+use Pagekit\Application as App;
 
 return [
 
@@ -37,37 +37,26 @@ return [
     'settings' => 'highlight-settings',
 
     'events' => [
-		'view.scripts' => function ($event, $scripts) use ($app) {
-			$scripts->register('highlight-settings', 'highlight:app/bundle/highlight-settings.js', ['~extensions', 'input-tree']);
-		},
+        'view.scripts' => function ($event, $scripts) use ($app) {
+            $scripts->register('highlight-settings', 'highlight:app/bundle/highlight-settings.js', ['~extensions', 'input-tree']);
+        },
 
         'site' => function ($event, $app) {
 
-            $config = Application::module('highlight')->config;
+            $app->on('view.content', function ($event) use ($app) {
 
-            $load = function() use ($config) {
-                Application::scripts()->add('highlight', 'highlight:assets/highlight.pack.js');
-                Application::scripts()->add('highlight-init', 'highlight:assets/highlight.js', 'highlight');
-                Application::styles()->add('highlight', 'highlight:assets/styles/'.$config['style'].'.css');
-                Application::styles()->add('highlight-override', 'highlight:assets/style.css', 'highlight');
-            };
-
-            $app->on('view.content', function ($event) use ($config, $load) {
-
-                $current = Application::node()->id;
+                $current = $app['node']->id;
 
                 // should be loaded on current page?
-                if (in_array($current, $config['nodes'])) {
-
-                    if($config['autodetect'] && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))) {
-
-                        $load();
-
-                    } elseif (!$config['autodetect']) {
-
-                        $load();
-
-                    }
+                if (in_array($current, $this->config['nodes'])
+                    && ($this->config['autodetect']
+                        && (strpos($event->getResult(), '<pre') || strpos($event->getResult(), '<code'))
+                        || !$this->config['autodetect'])
+                ) {
+                    $app['scripts']->add('highlight', 'highlight:assets/highlight.pack.js');
+                    $app['scripts']->add('highlight-init', 'highlight:assets/highlight.js', 'highlight');
+                    $app['styles']->add('highlight', 'highlight:assets/styles/'.$this->config['style'].'.css');
+                    $app['styles']->add('highlight-override', 'highlight:assets/style.css', 'highlight');
                 }
             });
         }

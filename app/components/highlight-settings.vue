@@ -49,6 +49,8 @@
 
     module.exports = {
 
+        settings: true,
+
         props: ['package'],
 
         data: function() {
@@ -57,11 +59,9 @@
             };
         },
 
-        ready: function () {
+        created: function () {
             this.load();
         },
-
-        settings: true,
 
         methods: {
 
