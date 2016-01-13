@@ -66,9 +66,9 @@
         methods: {
 
             load: function () {
-                this.$http.get('admin/highlight/config', function (data) {
-                    this.$set('styles', data.styles);
-                }).error(function () {
+                this.$http.get('admin/highlight/config').then(function (response) {
+                    this.$set('styles', response.data.styles);
+                }).catch(function () {
                     this.$notify('Could not load styles.');
                 });
             },
@@ -77,11 +77,11 @@
                this.$http.post('admin/system/settings/config', {
                    name: 'highlight',
                    config: this.package.config
-               }, function () {
+               }).then(function () {
                    this.$notify('Settings saved.', '');
-               }).error(function (data) {
-                   this.$notify(data, 'danger');
-               }).always(function () {
+               }).catch(function (response) {
+                   this.$notify(response.message, 'danger');
+               }).finally(function () {
                    this.$parent.close();
                });
            }
