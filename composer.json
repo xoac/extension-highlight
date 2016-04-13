@@ -17,6 +17,6 @@
         "image": "image.jpg"
     },
     "archive": {
-        "exclude": ["node_modules, "!/app"]
+        "exclude": ["node_modules", "!/app"]
     }
 }
