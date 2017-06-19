@@ -43,7 +43,7 @@ return [
 
         'site' => function ($event, $app) {
 
-            $app->on('view.content', function ($event, $test) use ($app) {
+            $app->on('view.content', function ($event) use ($app) {
                 if ((!$this->config['nodes'] || in_array($app['node']->id, $this->config['nodes']))
                     && (!$this->config['autodetect'] || (strpos($event->getResult(), '<pre') !== false || strpos($event->getResult(), '<code') !== false))
                 ) {
