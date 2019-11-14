@@ -1,5 +1,5 @@
 {
-    "name": "xoac/highlight",
+    "name": "pagekit/highlight",
     "type": "pagekit-extension",
     "version": "1.0.1",
     "title": "Highlight",
